@@ -36,6 +36,9 @@ static struct { int fire_high, skulls_high; } flicker = { 55, 55 };
 static int purple_pct = 3;
 static int red_pct = 12;
 
+const char *error = "";
+static int n_leds = -1;
+
 static void set_led(int led, color_t *c)
 {
     neo->set_led(led, c->r, c->g, c->b);
@@ -47,11 +50,9 @@ static void set_all(color_t *c)
     neo->show();
 }
 
-const char *error = "";
-
 static const char * set_lights_cgi_handler(int handler_index, int n_params, char *names[], char *values[])
 {
-    int n_leds = -1;
+    n_leds = -1;
 
     for (int i = 0; i < n_params; i++) {
 	if (strcmp(names[i], "values") == 0) {
@@ -68,10 +69,10 @@ static const char * set_lights_cgi_handler(int handler_index, int n_params, char
     }
     if (n_leds >= 0) {
        neo->show();
-       return "/ok.html";
+       return "/ok.shtml";
     }
     error = "Missing required parameter 'values'";
-    return "/error.html";
+    return "/error.shtml";
 }
 
 static const tCGI cgi_handlers[] = {
@@ -79,6 +80,17 @@ static const tCGI cgi_handlers[] = {
 };
 
 #define N_CGI_HANDLERS (sizeof(cgi_handlers) / sizeof(cgi_handlers[0]))
+
+const char *ssi_tags[] = { "error", "n_leds" };
+#define N_SSI_TAGS (sizeof(ssi_tags) / sizeof(ssi_tags[0]))
+
+static u16_t ssi_handler(int tag, char *output, int output_len) {
+    switch(tag) {
+    case 0: return snprintf(output, output_len, "%s", error);
+    case 1: return snprintf(output, output_len, "%d", n_leds);
+    default: return snprintf(output, output_len, "???");
+    }
+}
 
 int main(int argc, char **argv)
 {
@@ -105,6 +117,7 @@ int main(int argc, char **argv)
 
     httpd_init();
     http_set_cgi_handlers(cgi_handlers, N_CGI_HANDLERS);
+    http_set_ssi_handler(ssi_handler, ssi_tags, N_SSI_TAGS);
 
     while (1) {
 	int link_status = cyw43_tcpip_link_status(&cyw43_state, CYW43_ITF_STA);

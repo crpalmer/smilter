@@ -43,6 +43,7 @@
 #define LWIP_DHCP_DOES_ACD_CHECK    0
 
 #define LWIP_HTTPD_CGI		    1
+#define LWIP_HTTPD_SSI		    1
 #define LWIP_HTTPD_CUSTOM_FILES	    0
 #define HTTPD_USE_CUSTOM_FSDATA     1
 
