@@ -11,8 +11,9 @@ project(smilter)
 pico_sdk_init()
 
 add_definitions(-DPI_PICO)
+add_compile_definitions(CYW43_HOST_NAME=\"smilter\")
 
-include_directories(../../lib)
+include_directories(../../lib .)
 link_directories(../../lib/build)
 
 add_executable(smilter
@@ -23,7 +24,8 @@ add_executable(smilter
 target_link_libraries(smilter
     pi
     pico_cyw43_arch_threadsafe_background
-    pico_cyw43_arch_lwip_threadsafe_background 
+    pico_cyw43_arch_lwip_threadsafe_background
+    pico_lwip_http
     pico_stdlib
     pico_multicore
     hardware_adc
