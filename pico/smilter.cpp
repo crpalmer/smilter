@@ -36,6 +36,17 @@ static struct { int fire_high, skulls_high; } flicker = { 55, 55 };
 static int purple_pct = 3;
 static int red_pct = 12;
 
+static void set_led(int led, color_t *c)
+{
+    neo->set_led(led, c->r, c->g, c->b);
+}
+
+static void set_all(color_t *c)
+{
+    neo->set_all(c->r, c->g, c->b);
+    neo->show();
+}
+
 static const char * set_lights_cgi_handler(int handler_index, int n_params, char *names[], char *values[])
 {
     for (int i = 0; i < n_params; i++) {
@@ -43,7 +54,7 @@ static const char * set_lights_cgi_handler(int handler_index, int n_params, char
 	    neo->set_all(0, 0, 0);
 	    for (int led = 0; values[i][led]; led++) {
 		int v = values[i][led] - '0';
-		if (v >= 0 && v < N_COLORS) neo->set_led(led, colors[v]->r, colors[v]->g, colors[v]->b);
+		if (v >= 0 && v < N_COLORS) set_led(led, colors[v]);
 	    }
 	    neo->show();
 	}
@@ -72,10 +83,7 @@ int main(int argc, char **argv)
     neo->set_n_leds(N_LEDS);
     neo->set_mode(neopixel_mode_RGB);
     neo->set_brightness(0.25);
-    neo->set_all(0, 0, 0);
-    neo->show();
-
-    cyw43_arch_enable_sta_mode();
+    set_all(&off);
 
     printf("Connecting to Wi-Fi...\n");
     if (cyw43_arch_wifi_connect_timeout_ms(WIFI_SSID, WIFI_PASSWORD, CYW43_AUTH_WPA2_AES_PSK, 30000)) {
@@ -87,8 +95,8 @@ int main(int argc, char **argv)
         printf("Connected.\n");
     }
 
-    neo->set_all(0, 255, 0);
-    neo->show();
+    cyw43_arch_enable_sta_mode();
+    ms_sleep(1000);
 
     httpd_init();
     http_set_cgi_handlers(cgi_handlers, N_CGI_HANDLERS);
