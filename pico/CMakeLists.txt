@@ -13,6 +13,21 @@ pico_sdk_init()
 add_definitions(-DPI_PICO)
 add_compile_definitions(CYW43_HOST_NAME=\"smilter\")
 
+set(MAKE_FS_DATA_SCRIPT ${CMAKE_CURRENT_LIST_DIR}/external/makefsdata)
+
+#
+# To regenerate the fs data you need to rerun cmake ..
+#
+
+message("Running makefsdata script")
+execute_process(COMMAND
+        perl ${MAKE_FS_DATA_SCRIPT}
+        WORKING_DIRECTORY ${CMAKE_CURRENT_LIST_DIR}
+        ECHO_OUTPUT_VARIABLE
+        ECHO_ERROR_VARIABLE
+        )
+file(RENAME fsdata.c fsdata_custom.c)
+
 include_directories(../../lib .)
 link_directories(../../lib/build)
 

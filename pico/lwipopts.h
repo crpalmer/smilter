@@ -18,7 +18,6 @@
 #define LWIP_ETHERNET               1
 #define LWIP_ICMP                   1
 #define LWIP_RAW                    1
-#define LWIP_HTTPD_CGI		    1
 #define TCP_WND                     (8 * TCP_MSS)
 #define TCP_MSS                     1460
 #define TCP_SND_BUF                 (8 * TCP_MSS)
@@ -42,6 +41,10 @@
 #define LWIP_NETIF_TX_SINGLE_PBUF   1
 #define DHCP_DOES_ARP_CHECK         0
 #define LWIP_DHCP_DOES_ACD_CHECK    0
+
+#define LWIP_HTTPD_CGI		    1
+#define LWIP_HTTPD_CUSTOM_FILES	    0
+#define HTTPD_USE_CUSTOM_FSDATA     1
 
 #ifndef NDEBUG
 #define LWIP_DEBUG                  1

@@ -47,19 +47,31 @@ static void set_all(color_t *c)
     neo->show();
 }
 
+const char *error = "";
+
 static const char * set_lights_cgi_handler(int handler_index, int n_params, char *names[], char *values[])
 {
+    int n_leds = -1;
+
     for (int i = 0; i < n_params; i++) {
 	if (strcmp(names[i], "values") == 0) {
+	    int led;
+
 	    neo->set_all(0, 0, 0);
-	    for (int led = 0; values[i][led]; led++) {
+	    for (led = 0; values[i][led]; led++) {
 		int v = values[i][led] - '0';
 		if (v >= 0 && v < N_COLORS) set_led(led, colors[v]);
 	    }
-	    neo->show();
+	    if (n_leds < 0) n_leds = led;
+	    else n_leds += led;
 	}
     }
-    return "/ok.html";
+    if (n_leds >= 0) {
+       neo->show();
+       return "/ok.html";
+    }
+    error = "Missing required parameter 'values'";
+    return "/error.html";
 }
 
 static const tCGI cgi_handlers[] = {
