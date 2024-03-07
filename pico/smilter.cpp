@@ -85,15 +85,8 @@ int main(int argc, char **argv)
     neo->set_brightness(0.25);
     set_all(&off);
 
-    printf("Connecting to Wi-Fi...\n");
-    if (cyw43_arch_wifi_connect_timeout_ms(WIFI_SSID, WIFI_PASSWORD, CYW43_AUTH_WPA2_AES_PSK, 30000)) {
-        printf("failed to connect.\n");
-        neo->set_all(255, 0, 0);
-	neo->show();
-        while (1) ms_sleep(1000);
-    } else {
-        printf("Connected.\n");
-    }
+    cyw43_wifi_pm(&cyw43_state, cyw43_pm_value(CYW43_NO_POWERSAVE_MODE, 20, 1, 1, 1));
+    ms_sleep(1000);
 
     cyw43_arch_enable_sta_mode();
     ms_sleep(1000);
@@ -102,6 +95,15 @@ int main(int argc, char **argv)
     http_set_cgi_handlers(cgi_handlers, N_CGI_HANDLERS);
 
     while (1) {
-        ms_sleep(30000);
+	int link_status = cyw43_tcpip_link_status(&cyw43_state, CYW43_ITF_STA);
+	if (link_status != CYW43_LINK_UP) {
+	    printf("Connecting to Wi-Fi, current status is %d\n", link_status);
+	    if (cyw43_arch_wifi_connect_timeout_ms(WIFI_SSID, WIFI_PASSWORD, CYW43_AUTH_WPA2_AES_PSK, 30000)) {
+	        printf("failed to connect.\n");
+	    } else {
+	        printf("Connected.\n");
+	    }
+        }
+	ms_sleep(1000);
     }
 }
