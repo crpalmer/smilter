@@ -97,10 +97,10 @@ int main(int argc, char **argv)
     neo->set_brightness(0.25);
     set_all(&off);
 
-    cyw43_wifi_pm(&cyw43_state, cyw43_pm_value(CYW43_NO_POWERSAVE_MODE, 20, 1, 1, 1));
+    cyw43_arch_enable_sta_mode();
     ms_sleep(1000);
 
-    cyw43_arch_enable_sta_mode();
+    cyw43_wifi_pm(&cyw43_state, cyw43_pm_value(CYW43_NO_POWERSAVE_MODE, 20, 1, 1, 1));
     ms_sleep(1000);
 
     httpd_init();
