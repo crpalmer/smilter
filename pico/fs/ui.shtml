@@ -1,0 +1,10 @@
+<html>
+  <title>Smilter Board Interactive Web Page</title>
+  <table>
+    <tr><td style="width: 75px"><!--#ID0--></td><td style="width: 75px"><!--#ID1--></td><td style="width: 75px"><!--#ID2--></td><td style="width: 75px"><!--#ID3--></td><td style="width: 75px"><!--#ID4--></td> <td style="width: 75px"><!--#ID5--></td><td style="width: 75px"><!--#ID6--></td><td style="width: 75px"><!--#ID7--></td><td style="width: 75px"><!--#ID8--></td><td style="width: 75px"><!--#ID9--></td></tr>
+    <tr><td><!--#ID10--></td><td><!--#ID11--></td><td><!--#ID12--></td><td><!--#ID13--></td><td><!--#ID14--></td> <td><!--#ID15--></td><td><!--#ID16--></td><td><!--#ID17--></td><td><!--#ID18--></td><td><!--#ID19--></td></tr>
+    <tr><td><!--#ID20--></td><td><!--#ID21--></td><td><!--#ID22--></td><td><!--#ID23--></td><td><!--#ID24--></td> <td><!--#ID25--></td><td><!--#ID26--></td><td><!--#ID27--></td><td><!--#ID28--></td><td><!--#ID29--></td></tr>
+    <tr><td><!--#ID30--></td><td><!--#ID31--></td><td><!--#ID32--></td><td><!--#ID33--></td><td><!--#ID34--></td> <td><!--#ID35--></td><td><!--#ID36--></td><td><!--#ID37--></td><td><!--#ID38--></td><td><!--#ID39--></td></tr>
+    <tr><td><!--#ID40--></td><td><!--#ID41--></td><td><!--#ID42--></td><td><!--#ID43--></td><td><!--#ID44--></td> <td><!--#ID45--></td><td><!--#ID46--></td><td><!--#ID47--></td><td><!--#ID48--></td><td><!--#ID49--></td></tr>
+  </table>
+</html>
